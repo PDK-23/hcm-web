@@ -289,7 +289,7 @@ const quizData = {
     ]
 };
 
-const QuizGame = () => {
+const QuizGame = ({ onNavigate }) => {
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [userAnswers, setUserAnswers] = useState({});
     const [showResult, setShowResult] = useState(false);
@@ -731,6 +731,11 @@ const QuizGame = () => {
                     <button style={getStyles('controlButton')} onClick={toggleDarkMode}>
                         {isDarkMode ? '☀️' : '🌙'}
                     </button>
+                    {onNavigate && (
+                        <button style={getStyles('controlButton')} onClick={() => onNavigate('home')}>
+                            🏠
+                        </button>
+                    )}
                     <button style={getStyles('controlButton')} onClick={() => window.location.reload()}>
                         &#x2715;
                     </button>
@@ -799,6 +804,14 @@ const QuizGame = () => {
                         <button style={getStyles('nextButton')} onClick={handlePlayAgain}>
                             Câu hỏi khác
                         </button>
+                        {onNavigate && (
+                            <button 
+                                style={getStyles('nextButton')} 
+                                onClick={() => onNavigate('home')}
+                            >
+                                🏠 Về trang chủ
+                            </button>
+                        )}
                     </div>
                 </div>
             ) : (
