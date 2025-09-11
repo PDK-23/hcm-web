@@ -2,11 +2,15 @@
   "navigationFallback": {
     "rewrite": "/index.html",
     "exclude": [
-      "/assets/*", "/*.css", "/*.js", "/*.map", "/*.png",
-      "/*.jpg", "/*.svg", "/*.ico", "/favicon.ico"
+      "assets/*",
+      "*.css",
+      "*.js",
+      "*.map",
+      "*.png",
+      "*.jpg",
+      "*.svg",
+      "*.ico",
+      "favicon.ico"
     ]
-  },
-  "responseOverrides": {
-    "404": { "rewrite": "/index.html" }
   }
 }
