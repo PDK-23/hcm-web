@@ -33,16 +33,16 @@ jobs:
           node-version: '22'
           cache: 'npm'
 
-      # Nếu repo không có package-lock.json -> đổi 'npm ci' thành 'npm i'
+      # Nếu không có package-lock.json thì đổi npm ci -> npm i
       - name: Install deps
         run: npm ci
 
       - name: Build app
         run: npm run build
 
-      # 1) Chạy deploy CHỈ khi là push vào main và có secret
+      # Deploy khi push vào main (không dùng secrets trong if)
       - name: Deploy to Azure Static Web Apps (push to main)
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && secrets.AZURE_STATIC_WEB_APPS_API_TOKEN != ''
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: Azure/static-web-apps-deploy@v1
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
@@ -52,12 +52,11 @@ jobs:
           output_location: "dist"
           skip_app_build: true
 
-      # 2) Với PR: vẫn chạy step deploy nhưng KHÔNG fail khi thiếu secret
-      - name: Deploy preview (PR) - safe fallback
+      # PR: không fail nếu thiếu secret (PR từ fork)
+      - name: Deploy preview (PR) - skip when missing secrets
         if: github.event_name == 'pull_request' && github.event.action != 'closed'
         uses: Azure/static-web-apps-deploy@v1
         with:
-          # Secret sẽ có giá trị trống ở PR từ fork; dòng dưới giúp job KHÔNG fail
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
           action: upload
           app_location: "/"
