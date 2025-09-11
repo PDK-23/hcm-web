@@ -33,6 +33,7 @@ jobs:
           node-version: '22'
           cache: 'npm'
 
+      # Nếu repo không có package-lock.json, hãy đổi 'npm ci' -> 'npm i'
       - name: Install deps
         run: npm ci
 
@@ -48,6 +49,8 @@ jobs:
           app_location: "/"
           output_location: "dist"
           skip_app_build: true
+          # Tùy chọn: uncomment dòng dưới để không fail khi thiếu secret (ví dụ PR từ fork)
+          # skip_deploy_on_missing_secrets: true
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
