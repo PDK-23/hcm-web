@@ -19,6 +19,8 @@ jobs:
     permissions:
       contents: read
       pull-requests: write
+    env:
+      AZURE_SWA_TOKEN: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
 
     steps:
       - name: Checkout
@@ -27,37 +29,46 @@ jobs:
           submodules: true
           lfs: false
 
+      - name: Precheck deployment token
+        run: |
+          if [ -z "${AZURE_SWA_TOKEN}" ]; then
+            echo "❌ Secret 'AZURE_STATIC_WEB_APPS_API_TOKEN' bị trống hoặc chưa tạo ở repo."
+            exit 1
+          fi
+          echo "::add-mask::${AZURE_SWA_TOKEN}"
+          echo "✅ Token length: ${#AZURE_SWA_TOKEN}"
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: '22'
           cache: 'npm'
 
-      # Nếu repo không có package-lock.json, đổi npm ci -> npm i
+      # Nếu không có package-lock.json thì đổi npm ci -> npm i
       - name: Install deps
         run: npm ci
 
       - name: Build app (Vite)
         run: npm run build
 
-      # PUSH vào main -> Deploy production
+      # Deploy production khi push vào main
       - name: Deploy to Azure Static Web Apps (main)
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: Azure/static-web-apps-deploy@v1
         with:
-          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+          azure_static_web_apps_api_token: ${{ env.AZURE_SWA_TOKEN }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: upload
           app_location: "/"
           output_location: "dist"
-          skip_app_build: true   # đã build ở bước trên
+          skip_app_build: true
 
-      # PR -> tạo/ cập nhật preview environment (không fail nếu PR từ fork thiếu secret)
+      # PR preview (không fail nếu PR từ fork thiếu secret)
       - name: Deploy preview (PR)
         if: github.event_name == 'pull_request' && github.event.action != 'closed'
         uses: Azure/static-web-apps-deploy@v1
         with:
-          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+          azure_static_web_apps_api_token: ${{ env.AZURE_SWA_TOKEN }}
           action: upload
           app_location: "/"
           output_location: "dist"
@@ -68,9 +79,11 @@ jobs:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
     runs-on: ubuntu-latest
     name: Close PR Environment
+    env:
+      AZURE_SWA_TOKEN: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
     steps:
       - name: Close Pull Request
         uses: Azure/static-web-apps-deploy@v1
         with:
-          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+          azure_static_web_apps_api_token: ${{ env.AZURE_SWA_TOKEN }}
           action: close
