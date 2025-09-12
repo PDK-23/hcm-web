@@ -1,13 +1,71 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Home from './app/pages/Home';
 import Predecessors from './app/pages/Predecessors';
 import HoChiMinhIdeology from './app/pages/HoChiMinhIdeology';
 import Comparison from './app/pages/Comparison';
 import QuizGame from './app/pages/Quizgame';
 import './App.css';
+import './cursor-burst.css';
+import flagImg from './app/assets/vietnam-flag-icon.svg';
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home');
+  const burstLayerRef = useRef(null);
+  const lastSpawnRef = useRef(0);
+
+  useEffect(() => {
+    // Create a fixed overlay div once
+    const layer = document.createElement('div');
+    layer.className = 'flag-global-burst-layer';
+    document.body.appendChild(layer);
+    burstLayerRef.current = layer;
+
+    const throttleMs = 80;
+    const spawnBurst = (x, y) => {
+      const container = burstLayerRef.current;
+      if (!container) return;
+      const count = 10 + Math.floor(Math.random() * 8);
+      for (let i = 0; i < count; i++) {
+        const p = document.createElement('img');
+        p.src = flagImg;
+        p.alt = 'Vietnam flag';
+        p.className = 'flag-burst-particle';
+
+        const size = 10 + Math.random() * 16;
+        const angle = Math.random() * Math.PI * 2;
+        const distance = 20 + Math.random() * 60;
+        const dx = Math.cos(angle) * distance;
+        const dy = Math.sin(angle) * distance;
+        const rot = (Math.random() * 60 - 30).toFixed(2);
+        const duration = (0.6 + Math.random() * 0.9).toFixed(2);
+
+        p.style.width = `${size}px`;
+        p.style.height = 'auto';
+        p.style.left = `${x}px`;
+        p.style.top = `${y}px`;
+        p.style.setProperty('--dx', `${dx.toFixed(2)}px`);
+        p.style.setProperty('--dy', `${dy.toFixed(2)}px`);
+        p.style.setProperty('--rot', `${rot}deg`);
+        p.style.animationDuration = `${duration}s`;
+
+        p.addEventListener('animationend', () => p.remove(), { once: true });
+        container.appendChild(p);
+      }
+    };
+
+    const handleMove = (e) => {
+      const now = performance.now();
+      if (now - lastSpawnRef.current < throttleMs) return;
+      lastSpawnRef.current = now;
+      spawnBurst(e.clientX, e.clientY);
+    };
+
+    window.addEventListener('mousemove', handleMove);
+    return () => {
+      window.removeEventListener('mousemove', handleMove);
+      layer.remove();
+    };
+  }, []);
 
   const renderPage = () => {
     switch (currentPage) {
