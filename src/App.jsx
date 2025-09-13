@@ -8,7 +8,7 @@ import Comparison from './app/pages/Comparison';
 import QuizGame from './app/pages/Quizgame';
 import './App.css';
 import './cursor-burst.css';
-import flagImg from './app/assets/vietnam-flag-icon.svg';
+import flagImg1 from './app/assets/vietnam-flag-icon.svg';
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home');
@@ -30,9 +30,17 @@ function App() {
       const desired = 28 + Math.floor(Math.random() * 20); // 28 - 47
       const currentCount = container.childElementCount || 0;
       const count = Math.max(0, Math.min(desired, MAX_PARTICLES - currentCount));
+      // Mix two flag variants: imported icon + optional public asset '/Flag_Vietnam.svg'
+      const flagImg2 = '/Flag_Vietnam.svg';
       for (let i = 0; i < count; i++) {
         const p = document.createElement('img');
-        p.src = flagImg;
+        // Randomly choose one of the two images; fallback to flagImg1 if second is missing
+        const chosen = Math.random() < 0.5 ? flagImg1 : flagImg2;
+        p.src = chosen;
+        p.onerror = () => {
+          p.onerror = null;
+          p.src = flagImg1;
+        };
         p.alt = 'Vietnam flag';
         p.className = 'flag-burst-particle';
 
