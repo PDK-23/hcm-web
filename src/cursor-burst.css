@@ -3,7 +3,7 @@
   position: fixed;
   inset: 0;
   pointer-events: none;
-  z-index: 0; /* behind main content; raise if needed */
+  z-index: 2147483647; /* topmost above all UI; pointer-events:none ensures clicks pass through */
 }
 
 .flag-burst-particle {

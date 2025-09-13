@@ -13,7 +13,7 @@ import flagImg from './app/assets/vietnam-flag-icon.svg';
 function App() {
   const [currentPage, setCurrentPage] = useState('home');
   const burstLayerRef = useRef(null);
-  const lastSpawnRef = useRef(0);
+  // No throttle needed for click-based burst
 
   useEffect(() => {
     // Create a fixed overlay div once
@@ -22,11 +22,14 @@ function App() {
     document.body.appendChild(layer);
     burstLayerRef.current = layer;
 
-    const throttleMs = 80;
     const spawnBurst = (x, y) => {
       const container = burstLayerRef.current;
       if (!container) return;
-      const count = 10 + Math.floor(Math.random() * 8);
+      // Increase density: spawn more flags per click, with a simple safety cap
+      const MAX_PARTICLES = 700;
+      const desired = 28 + Math.floor(Math.random() * 20); // 28 - 47
+      const currentCount = container.childElementCount || 0;
+      const count = Math.max(0, Math.min(desired, MAX_PARTICLES - currentCount));
       for (let i = 0; i < count; i++) {
         const p = document.createElement('img');
         p.src = flagImg;
@@ -55,16 +58,13 @@ function App() {
       }
     };
 
-    const handleMove = (e) => {
-      const now = performance.now();
-      if (now - lastSpawnRef.current < throttleMs) return;
-      lastSpawnRef.current = now;
+    const handleClick = (e) => {
       spawnBurst(e.clientX, e.clientY);
     };
 
-    window.addEventListener('mousemove', handleMove);
+    window.addEventListener('click', handleClick);
     return () => {
-      window.removeEventListener('mousemove', handleMove);
+      window.removeEventListener('click', handleClick);
       layer.remove();
     };
   }, []);
