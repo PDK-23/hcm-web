@@ -84,6 +84,13 @@ const HoChiMinhIdeology = ({ onNavigate }) => {
         </div>
       </div>
 
+      <div className="quote">
+        <p>
+          "một dân tộc không tự lực cánh sinh mà cứ ngồi chờ dân tộc khác giúp đỡ thì không xứng đáng được độc lập"
+        </p>
+        <div className="quote-author">- Hồ Chí Minh</div>
+      </div>
+
       <div className="card">
         <h2 className="card-title">💡 Những điểm sáng tạo</h2>
         <div className="card-content">

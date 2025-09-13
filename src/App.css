@@ -7,7 +7,8 @@
 
 body {
   font-family: 'Times New Roman', serif;
-  background: linear-gradient(135deg, #da251d 0%, #ffd700 100%);
+  /* Softer, low-glare background */
+  background: linear-gradient(180deg, #f7f8fb 0%, #eef1f6 100%);
   min-height: 100vh;
   color: #333;
 }

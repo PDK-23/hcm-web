@@ -294,16 +294,21 @@ const QuizGame = ({ onNavigate }) => {
     const [userAnswers, setUserAnswers] = useState({});
     const [showResult, setShowResult] = useState(false);
     const [showHint, setShowHint] = useState(false);
-    const [isDarkMode, setIsDarkMode] = useState(true);
+    // Light-only theme + responsive
+    const [vpWidth, setVpWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
 
     const currentQuestion = quizData.questions[currentQuestionIndex];
     const totalQuestions = quizData.questions.length;
     const progressPercentage = ((currentQuestionIndex) / totalQuestions) * 100;
     const selectedAnswerIndex = userAnswers[currentQuestionIndex];
 
+    // Use global site background; do not override body background here
+    // Setup responsive listener
     useEffect(() => {
-        document.body.style.backgroundColor = isDarkMode ? '#202020' : '#f0f0f0';
-    }, [isDarkMode]);
+        const onResize = () => setVpWidth(window.innerWidth);
+        window.addEventListener('resize', onResize);
+        return () => window.removeEventListener('resize', onResize);
+    }, []);
 
     const handleAnswerOptionClick = (index) => {
         if (userAnswers[currentQuestionIndex] !== undefined) return;
@@ -368,11 +373,22 @@ const QuizGame = ({ onNavigate }) => {
     const scoreData = calculateScore();
     const accuracy = (scoreData.correct / scoreData.total) * 100;
 
-    const toggleDarkMode = () => {
-        setIsDarkMode(!isDarkMode);
+    // Light theme colors with red/yellow accents
+    const COLORS = {
+        text: '#333',
+        subtle: '#666',
+        subtle2: '#777',
+        border: '#e0e0e0',
+        panelBg: 'rgba(255,255,255,0.92)',
+        primary: '#da251d',
+        gold: '#ffd700',
+        correct: '#00c853',
+        incorrect: '#e53935',
     };
 
     const getStyles = (element) => {
+        const isMobile = vpWidth < 768;
+        const isSmall = vpWidth < 480;
         const baseStyles = {
             quizContainer: {
                 fontFamily: `'Google Sans Flex', 'Google Sans', 'Helvetica Neue', sans-serif`,
@@ -380,8 +396,8 @@ const QuizGame = ({ onNavigate }) => {
                 margin: '20px auto',
                 borderRadius: '24px',
                 boxShadow: '0 0 20px rgba(0,0,0,0.2)',
-                backgroundColor: isDarkMode ? '#242424' : '#fff',
-                color: isDarkMode ? '#f0f0f0' : '#333',
+                backgroundColor: COLORS.panelBg,
+                color: COLORS.text,
                 overflow: 'hidden',
                 display: 'flex',
                 flexDirection: 'column',
@@ -391,13 +407,13 @@ const QuizGame = ({ onNavigate }) => {
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',
-                padding: '16px 24px',
-                borderBottom: `1px solid ${isDarkMode ? '#383838' : '#e0e0e0'}`,
+                padding: isMobile ? '12px 16px' : '16px 24px',
+                borderBottom: `1px solid ${COLORS.border}`,
             },
             title: {
-                fontSize: '1em',
+                fontSize: isMobile ? '0.95em' : '1em',
                 fontWeight: 'bold',
-                color: isDarkMode ? '#ddd' : '#333',
+                color: COLORS.text,
             },
             headerControls: {
                 display: 'flex',
@@ -412,38 +428,38 @@ const QuizGame = ({ onNavigate }) => {
             progressBarContainer: {
                 width: '100px',
                 height: '4px',
-                backgroundColor: isDarkMode ? '#444' : '#e0e0e0',
+                backgroundColor: COLORS.border,
                 borderRadius: '2px',
                 overflow: 'hidden',
             },
             progressBar: {
                 height: '100%',
                 width: `${progressPercentage}%`,
-                backgroundColor: '#6b6bff',
+                backgroundColor: COLORS.primary,
                 transition: 'width 0.5s ease-in-out',
             },
             questionCount: {
                 fontSize: '0.9em',
-                color: isDarkMode ? '#aaa' : '#777',
+                color: COLORS.subtle2,
             },
             controlButton: {
                 background: 'none',
                 border: 'none',
-                color: isDarkMode ? '#aaa' : '#888',
+                color: '#888',
                 fontSize: '1.5em',
                 cursor: 'pointer',
                 lineHeight: '1',
             },
             mainContent: {
-                padding: '32px 64px',
+                padding: isMobile ? '20px 16px' : '32px 64px',
                 flexGrow: '1',
             },
             questionText: {
-                fontSize: '1.75em',
+                fontSize: isSmall ? '1.3em' : isMobile ? '1.5em' : '1.75em',
                 fontWeight: '400',
                 lineHeight: '1.5',
                 marginBottom: '40px',
-                color: isDarkMode ? '#f0f0f0' : '#333',
+                color: COLORS.text,
                 textAlign: 'left',
             },
             answerSection: {
@@ -461,21 +477,21 @@ const QuizGame = ({ onNavigate }) => {
                 position: 'relative',
                 transition: 'all 0.3s ease',
                 cursor: selectedAnswerIndex !== undefined ? 'not-allowed' : 'pointer',
-                backgroundColor: isDarkMode ? '#2e2e2e' : '#f5f5f5',
-                border: `1px solid ${isDarkMode ? '#383838' : '#e0e0e0'}`,
+                backgroundColor: '#f5f5f5',
+                border: `1px solid ${COLORS.border}`,
                 boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
                 textAlign: 'start',
             },
             answerBoxHover: {
-                backgroundColor: isDarkMode ? '#333' : '#eee',
+                backgroundColor: '#eee',
             },
             answerBoxCorrect: {
                 border: '1px solid #00c853',
-                backgroundColor: isDarkMode ? '#1a3a2d' : '#d4f6e6',
+                backgroundColor: '#d4f6e6',
             },
             answerBoxIncorrect: {
                 border: '1px solid #e53935',
-                backgroundColor: isDarkMode ? '#432626' : '#fddbdc',
+                backgroundColor: '#fddbdc',
             },
             answerBoxFaded: {
                 opacity: 0.6,
@@ -483,7 +499,7 @@ const QuizGame = ({ onNavigate }) => {
             answerText: {
                 fontSize: '1em',
                 fontWeight: 'normal',
-                color: isDarkMode ? '#e0e0e0' : '#333',
+                color: COLORS.text,
                 margin: '0',
             },
             statusMessage: {
@@ -496,30 +512,30 @@ const QuizGame = ({ onNavigate }) => {
                 fontWeight: '500',
             },
             correctStatusText: {
-                color: '#00c853',
+                color: COLORS.correct,
             },
             incorrectStatusText: {
-                color: '#e53935',
+                color: COLORS.incorrect,
             },
             rationaleText: {
                 fontSize: '0.9em',
                 lineHeight: '1.4',
-                color: isDarkMode ? '#aaa' : '#555',
+                color: '#555',
                 margin: '0',
             },
             bottomSection: {
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',
-                padding: '16px 24px',
-                borderTop: `1px solid ${isDarkMode ? '#383838' : '#e0e0e0'}`,
+                padding: isMobile ? '12px 16px' : '16px 24px',
+                borderTop: `1px solid ${COLORS.border}`,
                 fontSize: '0.85em',
-                color: isDarkMode ? '#aaa' : '#777',
+                color: COLORS.subtle2,
             },
             hintButton: {
                 background: 'none',
                 border: 'none',
-                color: isDarkMode ? '#aaa' : '#777',
+                color: COLORS.subtle2,
                 cursor: 'pointer',
                 fontSize: '1em',
                 display: 'flex',
@@ -529,9 +545,9 @@ const QuizGame = ({ onNavigate }) => {
             hintText: {
                 padding: '16px',
                 borderRadius: '12px',
-                backgroundColor: isDarkMode ? '#333' : '#fffbe6',
-                border: `1px solid ${isDarkMode ? '#555' : '#ffe58f'}`,
-                color: isDarkMode ? '#e0e0e0' : '#664d03',
+                backgroundColor: '#fffbe6',
+                border: `1px solid #ffe58f`,
+                color: '#664d03',
                 marginBottom: '16px',
                 fontSize: '1em',
             },
@@ -539,8 +555,8 @@ const QuizGame = ({ onNavigate }) => {
                 padding: '12px 28px',
                 borderRadius: '20px',
                 border: 'none',
-                background: '#1a73e8',
-                color: 'white',
+                background: COLORS.primary,
+                color: '#fff',
                 fontSize: '1em',
                 fontWeight: '500',
                 cursor: 'pointer',
@@ -552,7 +568,7 @@ const QuizGame = ({ onNavigate }) => {
                 boxShadow: 'none',
             },
             resultScreen: {
-                padding: '40px 64px',
+                padding: isMobile ? '24px 16px' : '40px 64px',
                 display: 'flex',
                 flexDirection: 'column',
                 flexGrow: 1,
@@ -561,19 +577,19 @@ const QuizGame = ({ onNavigate }) => {
             resultTitle: {
                 fontSize: '2.5em',
                 fontWeight: 'bold',
-                color: isDarkMode ? '#f0f0f0' : '#333',
+                color: COLORS.text,
                 marginBottom: '10px',
                 textAlign: 'left'
             },
             resultSubtitle: {
                 fontSize: '1.2em',
-                color: isDarkMode ? '#aaa' : '#666',
+                color: COLORS.subtle,
                 marginBottom: '40px',
                 textAlign: 'left'
             },
             statsGrid: {
                 display: 'grid',
-                gridTemplateColumns: 'repeat(3, 1fr)',
+                gridTemplateColumns: vpWidth < 900 ? '1fr' : 'repeat(3, 1fr)',
                 gap: '24px',
                 width: '100%',
                 marginBottom: '40px',
@@ -581,18 +597,18 @@ const QuizGame = ({ onNavigate }) => {
             statCard: {
                 padding: '24px',
                 borderRadius: '16px',
-                backgroundColor: isDarkMode ? '#2e2e2e' : '#f5f5f5',
+                backgroundColor: '#f5f5f5',
                 boxShadow: '0 2px 6px rgba(0,0,0,0.1)',
                 textAlign: 'left',
             },
             statTitle: {
                 fontSize: '0.9em',
-                color: isDarkMode ? '#aaa' : '#555',
+                color: '#555',
                 marginBottom: '8px',
             },
             statTitle2: {
                 fontSize: '0.95em',
-                color: isDarkMode ? '#f5f5f5' : '#555',
+                color: '#555',
                 marginBottom: '8px',
                 display: 'flex',
                 justifyContent: 'space-between',
@@ -601,17 +617,17 @@ const QuizGame = ({ onNavigate }) => {
             statValue: {
                 fontSize: '2em',
                 fontWeight: 'bold',
-                color: isDarkMode ? '#e0e0e0' : '#000',
+                color: '#000',
             },
             statSubtitle: {
                 fontSize: '1em',
-                color: isDarkMode ? '#aaa' : '#555',
+                color: '#555',
             },
             feedbackCard: {
                 padding: '24px',
                 borderRadius: '16px',
-                backgroundColor: isDarkMode ? '#333' : '#f0f0f0',
-                border: `1px solid ${isDarkMode ? '#444' : '#ddd'}`,
+                backgroundColor: '#f0f0f0',
+                border: `1px solid #ddd`,
                 width: '100%',
                 display: 'flex',
                 alignItems: 'center',
@@ -621,7 +637,7 @@ const QuizGame = ({ onNavigate }) => {
             },
             feedbackIcon: {
                 fontSize: '3em',
-                color: isDarkMode ? '#6b6bff' : '#007bff',
+                color: COLORS.primary,
             },
             feedbackText: {
                 flexGrow: 1,
@@ -634,28 +650,28 @@ const QuizGame = ({ onNavigate }) => {
             feedbackButton: {
                 padding: '12px 24px',
                 borderRadius: '20px',
-                background: '#1a73e8',
+                background: COLORS.primary,
                 color: 'white',
                 border: 'none',
                 cursor: 'pointer',
                 fontWeight: '500',
             },
             continueLearning: {
-                fontSize: '1.5em',
+                fontSize: isMobile ? '1.3em' : '1.5em',
                 fontWeight: 'bold',
                 marginBottom: '24px',
                 textAlign: 'left'
             },
             learningGrid: {
                 display: 'grid',
-                gridTemplateColumns: 'repeat(2, 1fr)',
+                gridTemplateColumns: isMobile ? '1fr' : 'repeat(2, 1fr)',
                 gap: '24px',
                 width: '100%',
             },
             learningCard: {
                 padding: '24px',
                 borderRadius: '16px',
-                backgroundColor: isDarkMode ? '#2e2e2e' : '#f5f5f5',
+                backgroundColor: '#f5f5f5',
                 boxShadow: '0 2px 6px rgba(0,0,0,0.1)',
                 textAlign: 'left',
                 position: 'relative',
@@ -665,7 +681,7 @@ const QuizGame = ({ onNavigate }) => {
                 top: '24px',
                 right: '24px',
                 fontSize: '2em',
-                color: isDarkMode ? '#aaa' : '#777',
+                color: '#777',
             },
             learningTitle: {
                 fontSize: '1.1em',
@@ -674,7 +690,7 @@ const QuizGame = ({ onNavigate }) => {
             },
             learningDescription: {
                 fontSize: '0.9em',
-                color: isDarkMode ? '#aaa' : '#555',
+                color: '#555',
                 lineHeight: '1.4',
             },
             actionButtons: {
@@ -687,7 +703,7 @@ const QuizGame = ({ onNavigate }) => {
             backButton: {
                 background: 'none',
                 border: 'none',
-                color: isDarkMode ? '#e0e0e0' : '#333',
+                color: COLORS.text,
                 fontSize: '1em',
                 cursor: 'pointer',
                 marginRight: 'auto',
@@ -728,14 +744,6 @@ const QuizGame = ({ onNavigate }) => {
                             {showResult ? '' : `${currentQuestionIndex + 1}/${totalQuestions}`}
                         </span>
                     </div>
-                    <button style={getStyles('controlButton')} onClick={toggleDarkMode}>
-                        {isDarkMode ? '☀️' : '🌙'}
-                    </button>
-                    {onNavigate && (
-                        <button style={getStyles('controlButton')} onClick={() => onNavigate('home')}>
-                            🏠
-                        </button>
-                    )}
                     <button style={getStyles('controlButton')} onClick={() => window.location.reload()}>
                         &#x2715;
                     </button>
@@ -798,7 +806,7 @@ const QuizGame = ({ onNavigate }) => {
                         </div>
                     </div>
                     <div style={getStyles('actionButtons')}>
-                        <button onClick={handleReviewQuiz} style={{ ...getStyles('nextButton'), background: 'none', color: isDarkMode ? '#e0e0e0' : '#333' }}>
+                        <button onClick={handleReviewQuiz} style={{ ...getStyles('nextButton'), background: 'none', color: COLORS.text }}>
                             Xem lại bài kiểm tra
                         </button>
                         <button style={getStyles('nextButton')} onClick={handlePlayAgain}>
@@ -887,7 +895,7 @@ const QuizGame = ({ onNavigate }) => {
                                     style={{
                                         ...getStyles('nextButton'),
                                         background: 'none',
-                                        color: isDarkMode ? '#e0e0e0' : '#333'
+                                        color: COLORS.text
                                     }}
                                 >
                                     Quay lại
