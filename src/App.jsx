@@ -122,6 +122,16 @@ function App() {
             >
               🎮 Quiz & Tương tác
             </button>
+            <a
+              className="nav-item"
+              href="https://chatgpt.com/g/g-68c4e3f247488191abcb7181c60ee725-doc-lap-dan-toc-cua-ho-chi-minh-va-cac-tien-nhan"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ textDecoration: 'none' }}
+              title="Mở tài nguyên mở rộng trong tab mới"
+            >
+              🔗 Chat Box
+            </a>
           </div>
         </div>
       </nav>
