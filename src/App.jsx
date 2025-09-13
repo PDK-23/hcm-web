@@ -1,4 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { Tooltip } from 'antd';
+import { MessageOutlined } from '@ant-design/icons';
 import Home from './app/pages/Home';
 import Predecessors from './app/pages/Predecessors';
 import HoChiMinhIdeology from './app/pages/HoChiMinhIdeology';
@@ -122,16 +124,6 @@ function App() {
             >
               🎮 Quiz & Tương tác
             </button>
-            <a
-              className="nav-item"
-              href="https://chatgpt.com/g/g-68c4e3f247488191abcb7181c60ee725-doc-lap-dan-toc-cua-ho-chi-minh-va-cac-tien-nhan"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ textDecoration: 'none' }}
-              title="Mở tài nguyên mở rộng trong tab mới"
-            >
-              🔗 Chat Box
-            </a>
           </div>
         </div>
       </nav>
@@ -139,6 +131,19 @@ function App() {
       <main className="main-content">
         {renderPage()}
       </main>
+
+      {/* Floating chat button */}
+      <Tooltip title="Cùng hỏi Chat box nào" placement="left" overlayStyle={{ zIndex: 2147483647 }}>
+        <a
+          className="floating-chat-btn"
+          href="https://chatgpt.com/g/g-68c4e3f247488191abcb7181c60ee725-doc-lap-dan-toc-cua-ho-chi-minh-va-cac-tien-nhan"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Mở chat box"
+        >
+          <MessageOutlined />
+        </a>
+      </Tooltip>
     </div>
   );
 }

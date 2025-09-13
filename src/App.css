@@ -398,6 +398,37 @@ body {
   flex: 1;
 }
 
+/* Floating Chat Button */
+.floating-chat-btn {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #ffd700;
+  color: #da251d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid #da251d;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, color 0.2s ease;
+  z-index: 2147483647; /* highest layer */
+}
+
+.floating-chat-btn:hover {
+  transform: translateY(-3px) scale(1.03);
+  background: #da251d;
+  color: #ffd700;
+  box-shadow: 0 14px 30px rgba(218, 37, 29, 0.35);
+}
+
+.floating-chat-btn .anticon {
+  font-size: 22px;
+}
+
 .figure-info .card-title {
   margin-bottom: 0;
   color: #da251d;
