@@ -6,6 +6,7 @@ import Predecessors from './app/pages/Predecessors';
 import HoChiMinhIdeology from './app/pages/HoChiMinhIdeology';
 import Comparison from './app/pages/Comparison';
 import QuizGame from './app/pages/Quizgame';
+import ValueOfEra from './app/pages/ValueOfEra';
 import './App.css';
 import './cursor-burst.css';
 import flagImg1 from './app/assets/vietnam-flag-icon.svg';
@@ -87,6 +88,8 @@ function App() {
         return <HoChiMinhIdeology onNavigate={setCurrentPage} />;
       case 'comparison':
         return <Comparison onNavigate={setCurrentPage} />;
+      case 'valueOfEra':
+        return <ValueOfEra onNavigate={setCurrentPage} />;
       case 'quiz':
         return <QuizGame onNavigate={setCurrentPage} />;
       default:
@@ -112,25 +115,31 @@ function App() {
               className={`nav-item ${currentPage === 'predecessors' ? 'active' : ''}`}
               onClick={() => setCurrentPage('predecessors')}
             >
-              📜 Quan điểm tiền nhân
+              📜 Tiền nhân
             </button>
             <button
               className={`nav-item ${currentPage === 'ideology' ? 'active' : ''}`}
               onClick={() => setCurrentPage('ideology')}
             >
-              🌟 Tư tưởng Hồ Chí Minh
+              🌟 Tư tưởng HCM
             </button>
             <button
               className={`nav-item ${currentPage === 'comparison' ? 'active' : ''}`}
               onClick={() => setCurrentPage('comparison')}
             >
-              ⚖️ So sánh & Giá trị
+              ⚖️ So sánh
+            </button>
+            <button
+              className={`nav-item ${currentPage === 'valueOfEra' ? 'active' : ''}`}
+              onClick={() => setCurrentPage('valueOfEra')}
+            >
+              🌏 Giá trị thời đại
             </button>
             <button
               className={`nav-item ${currentPage === 'quiz' ? 'active' : ''}`}
               onClick={() => setCurrentPage('quiz')}
             >
-              🎮 Quiz & Tương tác
+              🎮 Quiz
             </button>
           </div>
         </div>

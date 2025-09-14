@@ -78,6 +78,12 @@ const Home = ({ onNavigate }) => {
         </button>
         <button 
           className="nav-button"
+          onClick={() => onNavigate('valueOfEra')}
+        >
+          ⚖️ Giá trị thời đại của tư tưởng Hồ Chí Minh
+        </button>
+        <button 
+          className="nav-button"
           onClick={() => onNavigate('quiz')}
         >
           🎮 Quiz & Tương tác

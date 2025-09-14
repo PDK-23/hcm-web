@@ -167,9 +167,9 @@ const Comparison = ({ onNavigate }) => {
         </button>
         <button 
           className="nav-button"
-          onClick={() => onNavigate('quiz')}
+          onClick={() => onNavigate('valueOfEra')}
         >
-          🎮 Quiz & Tương tác →
+          Giá trị thời đại →
         </button>
       </div>
     </div>
