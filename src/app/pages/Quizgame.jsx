@@ -515,7 +515,7 @@ const QuizGame = ({ onNavigate }) => {
                             <span style={getStyles('feedbackIcon')}>💬</span>
                             <div style={getStyles('feedbackText')}>
                                 <div style={getStyles('feedbackTitle')}>
-                                    Nếu bạn muốn tìm hiểu thêm về "Tư tưởng độc lập của Hồ Chí Minh" thì hãy hỏi thêm chat box nhé
+                                    Nếu bạn muốn tìm hiểu thêm về "Tư tưởng độc lập của Hồ Chí Minh" thì hãy hỏi thêm chat box nhé, hoặc muốn tranh luận thêm với chat box.
                                 </div>
                                 <p style={getStyles('learningDescription')}>
                                     Nhấn vào đây để mở chat box trong tab mới
