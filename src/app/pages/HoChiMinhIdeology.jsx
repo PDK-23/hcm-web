@@ -122,43 +122,6 @@ const HoChiMinhIdeology = ({ onNavigate }) => {
         </div>
       </div>
 
-      <div className="card">
-        <h2 className="card-title">📊 So sánh với quan điểm tiền nhân</h2>
-        <div className="card-content">
-          <table className="comparison-table">
-            <thead>
-              <tr>
-                <th>Tiêu chí</th>
-                <th>Tiền nhân</th>
-                <th>Hồ Chí Minh</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><strong>Con đường</strong></td>
-                <td>Bạo động hoặc cải cách</td>
-                <td>Cách mạng vô sản</td>
-              </tr>
-              <tr>
-                <td><strong>Lực lượng</strong></td>
-                <td>Dựa vào ngoại bang</td>
-                <td>Tự lực cánh sinh</td>
-              </tr>
-              <tr>
-                <td><strong>Mục tiêu</strong></td>
-                <td>Chỉ độc lập dân tộc</td>
-                <td>Độc lập + CNXH</td>
-              </tr>
-              <tr>
-                <td><strong>Tầm nhìn</strong></td>
-                <td>Chỉ Việt Nam</td>
-                <td>Gắn với thời đại</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
       <div className="quote">
         <p>
           "Tôi chỉ có một ham muốn, ham muốn tột bậc, là làm sao cho nước ta được hoàn toàn độc lập,

@@ -6,7 +6,7 @@ function ValueOfEra({ onNavigate }) {
       year: 2015,
       title: 'Ký Hiệp định TPP/CPTPP',
       content: 'Bước ngoặt hội nhập, đa phương hóa quan hệ.',
-      source: 'https://vnexpress.net/viet-nam-ky-hiep-dinh-tpp-3142396.html'
+      source: 'https://trungtamwto.vn/chuyen-de/8049-vi-sao-viet-nam-duoc-moi-tham-gia-tpp'
     },
     {
       year: 2017,
@@ -35,13 +35,13 @@ function ValueOfEra({ onNavigate }) {
     {
       year: 2024,
       title: 'Thành tựu kinh tế-xã hội',
-      content: 'Tỷ lệ hộ nghèo <2%, GDP vượt 430 tỷ USD.',
+      content: 'Tỷ lệ hộ nghèo < 2%, GDP vượt 430 tỷ USD.',
       source: 'https://thanhnien.vn/gdp-dat-430-ti-usd-viet-nam-vao-nhom-trung-binh-cao-cua-the-gioi-185240520233752573.htm'
     },
     {
       year: 2025,
       title: 'Phát triển toàn diện',
-      content: 'GDP >500 tỷ USD, Vietnam Today TV, 30 năm quan hệ Việt-Mỹ.',
+      content: 'Mục tiêu phấn đấu tốc độ tăng trưởng GDP > 500 tỷ USD, Vietnam Today TV, 30 năm quan hệ Việt-Mỹ.',
       source: 'https://vtv.vn/kinh-te/quy-mo-nen-kinh-te-nam-2025-co-the-dat-500-ty-usd-20241023204017161.htm\n https://vietnamtoday.vtv.vn/\n https://laodong.vn/the-gioi/hanh-trinh-dang-nho-30-nam-quan-he-viet-my-1451344.ldo'
     },
   ];
@@ -112,7 +112,7 @@ function ValueOfEra({ onNavigate }) {
   return (
     <div className="page-container">
       <div className="banner" style={{ marginBottom: '3rem' }}>
-        <h1 className="banner-title">Giá Trị Thời Đại của Tư Tưởng Hồ Chí Minh</h1>
+        <h1 className="banner-title">Dẫn chứng từ bối cảnh xã hội, kinh tế – chính trị hiện nay</h1>
         <p className="banner-subtitle">Trong 10 năm gần đây (2015-2025)</p>
       </div>
 
@@ -170,12 +170,12 @@ function ValueOfEra({ onNavigate }) {
           <h3 className="infographic-title">Nepal (2025)</h3>
           <p>Biểu tình "Gen Z" chống tham nhũng, bất bình đẳng, thất nghiệp → bạo động, Thủ tướng phải từ chức.</p>
           <a
-            href="https://www.bbc.com/vietnamese/articles/cwy8403nrj1o"
+            href="https://vnexpress.net/lenh-cam-mang-xa-hoi-cham-ngoi-bieu-tinh-gen-z-dam-mau-o-nepal-4936744.html"
             target="_blank"
             rel="noopener noreferrer"
             style={timelineStyles.sourceLink}
           >
-            🔗 bbc.com
+            🔗 vnexpress.net
           </a>
         </div>
       </div>

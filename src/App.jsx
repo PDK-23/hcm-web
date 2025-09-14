@@ -133,7 +133,7 @@ function App() {
               className={`nav-item ${currentPage === 'valueOfEra' ? 'active' : ''}`}
               onClick={() => setCurrentPage('valueOfEra')}
             >
-              🌏 Giá trị thời đại
+              🌏 Dẫn chứng từ bối cảnh
             </button>
             <button
               className={`nav-item ${currentPage === 'quiz' ? 'active' : ''}`}
