@@ -165,6 +165,17 @@ body {
   margin-bottom: 2rem;
 }
 
+/* Reduce bullet prominence in content lists */
+.page-container ul {
+  list-style: none;
+  padding-left: 0 !important;
+  margin-left: 0 !important;
+}
+
+.page-container li {
+  margin: 0.35rem 0;
+}
+
 .page-title {
   font-size: 2.5rem;
   color: #da251d;
