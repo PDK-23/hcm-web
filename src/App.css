@@ -37,6 +37,8 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 0.8rem 1rem;
+  flex-wrap: wrap; /* allow wrapping on small screens */
+  row-gap: 0.5rem;
 }
 
 .nav-logo {
@@ -49,15 +51,17 @@ body {
   color: #ffd700;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   font-family: 'Times New Roman', serif;
+  white-space: nowrap; /* never wrap title */
 }
 
 .nav-menu {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: 0.5rem;
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
+  justify-content: flex-end;
+  align-items: center;
+  margin-left: 1rem;
+  max-width: 100%;
 }
 
 .nav-item {
@@ -71,7 +75,10 @@ body {
   font-weight: 500;
   transition: all 0.3s ease;
   font-family: 'Times New Roman', serif;
-  width: 100%;
+  width: auto; /* don't stretch buttons too wide */
+  max-width: 200px; /* cap width so buttons don't get too long */
+  min-width: 140px; /* keep some consistency */
+  flex: 0 1 auto; /* allow wrap */
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -102,6 +109,50 @@ body {
   max-width: 1200px;
   margin: 0 auto;
   width: 100%;
+}
+
+/* Responsive tweaks */
+@media (max-width: 1024px) {
+  .logo-text {
+    font-size: 1.3rem;
+  }
+  .nav-item {
+    font-size: 0.82rem;
+    padding: 0.45rem 0.7rem;
+    max-width: 180px;
+    min-width: 120px;
+  }
+}
+
+@media (max-width: 768px) {
+  .nav-container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .nav-menu {
+    justify-content: center;
+    margin-left: 0;
+    gap: 0.5rem 0.6rem;
+  }
+  .main-content {
+    padding: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo-text {
+    font-size: 1.15rem;
+  }
+  .nav-item {
+    font-size: 0.78rem;
+    padding: 0.4rem 0.6rem;
+    max-width: 160px;
+    min-width: 110px;
+    min-height: 36px;
+  }
+  .main-content {
+    padding: 1rem;
+  }
 }
 
 /* Page Styles */
